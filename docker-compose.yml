@@ -1,0 +1,9 @@
+version: '2'
+services:
+  learn_create_react_web:
+    build: .
+    volumes:
+      - .:/learn_create_react_app
+    command: npm start
+    ports:
+      - "3000:3000"
