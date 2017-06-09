@@ -1,7 +1,7 @@
-npm install -g create-react-app
-create-react-app my-app
-cd my-app
-npm install --save redux react-redux redux-form material-ui
+npm install -g create-react-app  
+create-react-app my-app  
+cd my-app  
+npm install --save redux react-redux redux-form material-ui  
 
 ******************************
 
