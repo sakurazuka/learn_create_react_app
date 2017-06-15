@@ -2,16 +2,16 @@ import React, { PropTypes } from 'react'
 import Todo from './Todo'
 
 const TodoList = ({ todos, onTodoClick }) => (
-    <ul>
+  <ul>
     {todos.map(todo =>
-        <Todo
+      <Todo
         key={todo.id}
         {...todo}
         onClick={() => onTodoClick(todo.id)}
-        />
-        )}
-    </ul>
-    )
+      />
+    )}
+  </ul>
+)
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.shape({
