@@ -5,25 +5,39 @@ import { addTodo } from '../actions'
 let AddTodo = ({ dispatch }) => {
   let input
 
-    return (
-        <div>
-        <form onSubmit={e => {
-          e.preventDefault()
-            if (!input.value.trim()) {
-              return
-            }
-          dispatch(addTodo(input.value))
-            input.value = ''
-        }}>
+  return (
+    <div>
+      <h>郵便番号入力</h>
+      <form onSubmit={e => {
+        e.preventDefault()
+        if (!input.value.trim()) {
+          return false
+        }
+
+        let req = new XMLHttpRequest()
+        req.open('GET', 'http://api.zipaddress.net/?zipcode=' + input.value, false)
+        req.send("")
+        let { code, data } = JSON.parse(req.response)
+        if (code == '200') {
+          dispatch(addTodo(data.fullAddress))
+          input.value = ''
+          return true
+        } else {
+          return false
+        }
+
+        // dispatch(addTodo(input.value))
+        // input.value = ''
+      }}>
         <input ref={node => {
           input = node
         }} />
         <button type="submit">
-        Add Todo
+          Add Todo
         </button>
-        </form>
-        </div>
-        )
+      </form>
+    </div>
+  )
 }
 AddTodo = connect()(AddTodo)
 
