@@ -13,21 +13,18 @@ let AddTodo = ({ dispatch }) => {
         if (!input.value.trim()) {
           return false
         }
-
         let req = new XMLHttpRequest()
-        req.open('GET', 'http://api.zipaddress.net/?zipcode=' + input.value, false)
+        req.open('GET', 'http://api.zipaddress.net/?zipcode=' + input.value, true)
+        req.onreadystatechange = function(){
+          if (req.readyState==4){
+            let { code, data } = JSON.parse(req.responseText)
+            if (code == '200') {
+              dispatch(addTodo(data.fullAddress))
+              input.value = ''
+            }
+          }
+        };
         req.send("")
-        let { code, data } = JSON.parse(req.response)
-        if (code == '200') {
-          dispatch(addTodo(data.fullAddress))
-          input.value = ''
-          return true
-        } else {
-          return false
-        }
-
-        // dispatch(addTodo(input.value))
-        // input.value = ''
       }}>
         <input ref={node => {
           input = node
