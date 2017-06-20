@@ -7,18 +7,27 @@ let getAddress = (dispatch, input) => {
     return false
   }
 
-  let req = new XMLHttpRequest()
-  req.open('GET', 'http://api.zipaddress.net/?zipcode=' + input.value, true)
-  req.onreadystatechange = function(){
-    if (req.readyState==4){
-      let { code, data } = JSON.parse(req.responseText)
-      if (code == '200') {
-        dispatch(addTodo(data.fullAddress))
-        input.value = ''
-      }
+  let url = 'http://api.zipaddress.net/?zipcode=' + input.value;
+  asyncAddressApi(url).then(function onFulfilled(value){
+    let { code, data } = JSON.parse(value)
+    if (code == '200') {
+      dispatch(addTodo(data.fullAddress))
+      input.value = ''
     }
-  };
-  req.send("")
+  });
+}
+
+let asyncAddressApi = (url) => {
+  return new Promise(function (resolve, reject) {
+    var req = new XMLHttpRequest();
+    req.open('GET', url, true);
+    req.onload = function () {
+      if (req.status === 200) {
+        resolve(req.responseText);
+      }
+    };
+    req.send();
+  });
 }
 
 let AddTodo = ({ dispatch }) => {
